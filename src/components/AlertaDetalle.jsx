@@ -1,3 +1,4 @@
+// AlertaDetalle.jsx
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getContract } from "../contract/contract";
@@ -7,9 +8,15 @@ export default function AlertaDetalle({ provider }) {
   const { index } = useParams();
   const navigate = useNavigate();
   const [alerta, setAlerta] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const load = async () => {
+      if (!provider) {
+        setError("Wallet no conectada. Por favor vuelva al login.");
+        return;
+      }
+
       try {
         const signer = await provider.getSigner();
         const contract = getContract(signer);
@@ -17,14 +24,16 @@ export default function AlertaDetalle({ provider }) {
         setAlerta(data);
       } catch (error) {
         console.error("Error al cargar alerta:", error);
+        setError("No se pudo cargar la alerta. Verifique el ID.");
       }
     };
-    if (provider) load();
+    load();
   }, [index, provider]);
 
+  if (error) return <p className="text-center mt-4 text-red-600">{error}</p>;
   if (!alerta) return <p className="text-center mt-4">Cargando alerta...</p>;
 
-  const [user, lat, lon, timestamp, contacts, desc, imgs, decl] = [
+  const [idEvent, user, lat, lon, timestamp, contacts, desc, imgs, decl] = [
     alerta[1],
     alerta[2],
     alerta[3],
@@ -33,6 +42,7 @@ export default function AlertaDetalle({ provider }) {
     alerta[6],
     alerta[7],
     alerta[8],
+    alerta[9]
   ];
 
   const parsedLat = parseFloat(lat);
@@ -44,7 +54,7 @@ export default function AlertaDetalle({ provider }) {
         onClick={() => navigate("/")}
         className="mb-4 text-sm text-blue-600 hover:underline"
       >
-        ← Volver al listado
+        ← Volver al menú
       </button>
 
       <h2 className="text-2xl font-bold text-red-600 mb-4">
@@ -52,6 +62,7 @@ export default function AlertaDetalle({ provider }) {
       </h2>
 
       <div className="grid gap-2 text-gray-700 mb-4">
+        <p><strong>ID de evento:</strong> {idEvent}</p>
         <p><strong>Ubicación:</strong> {lat}, {lon}</p>
         <p><strong>Fecha:</strong> {new Date(Number(timestamp) * 1000).toLocaleString()}</p>
         <p><strong>Contactos:</strong> {contacts.join(", ")}</p>

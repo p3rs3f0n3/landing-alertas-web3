@@ -1,7 +1,7 @@
 import { ethers } from "ethers";
 
-// Reemplaza esta dirección con la real de tu contrato desplegado
-const contractAddress = "0x6bbd7cCA471Cf0F819C266A21bd5fF0B1F6c4605";
+// Dirección del contrato desplegado en Base Sepolia
+const contractAddress = "0xcaD16f95EA5137Ef52a26ccA4B6dF1c5aab950FC";
 
 const abi = [
   {
@@ -20,6 +20,7 @@ const abi = [
     anonymous: false,
     inputs: [
       { indexed: true, internalType: "address", name: "sender", type: "address" },
+      { indexed: false, internalType: "string", name: "idEvent", type: "string" },
       { indexed: false, internalType: "string", name: "userName", type: "string" },
       { indexed: false, internalType: "string", name: "latitude", type: "string" },
       { indexed: false, internalType: "string", name: "longitude", type: "string" },
@@ -41,6 +42,7 @@ const abi = [
   },
   {
     inputs: [
+      { internalType: "string", name: "idEvent", type: "string" },
       { internalType: "string", name: "userName", type: "string" },
       { internalType: "string", name: "latitude", type: "string" },
       { internalType: "string", name: "longitude", type: "string" },
@@ -56,6 +58,7 @@ const abi = [
     name: "alerts",
     outputs: [
       { internalType: "address", name: "sender", type: "address" },
+      { internalType: "string", name: "idEvent", type: "string" },
       { internalType: "string", name: "userName", type: "string" },
       { internalType: "string", name: "latitude", type: "string" },
       { internalType: "string", name: "longitude", type: "string" },
@@ -82,6 +85,7 @@ const abi = [
       { internalType: "string", name: "", type: "string" },
       { internalType: "string", name: "", type: "string" },
       { internalType: "string", name: "", type: "string" },
+      { internalType: "string", name: "", type: "string" },
       { internalType: "uint256", name: "", type: "uint256" },
       { internalType: "string[]", name: "", type: "string[]" },
       { internalType: "string", name: "", type: "string" },
@@ -98,6 +102,7 @@ const abi = [
       {
         components: [
           { internalType: "address", name: "sender", type: "address" },
+          { internalType: "string", name: "idEvent", type: "string" },
           { internalType: "string", name: "userName", type: "string" },
           { internalType: "string", name: "latitude", type: "string" },
           { internalType: "string", name: "longitude", type: "string" },
