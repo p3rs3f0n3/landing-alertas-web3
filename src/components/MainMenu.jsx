@@ -33,7 +33,7 @@ export default function MainMenu({ account, setLoggedIn, setProvider, setAccount
             Wallet no conectada. Por favor reinicia sesión.
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">Ver Todas las Alertas</h2>
               <p className="text-gray-600 mb-4">Visualiza todas las alertas registradas en el sistema.</p>
@@ -53,6 +53,17 @@ export default function MainMenu({ account, setLoggedIn, setProvider, setAccount
                 className="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700"
               >
                 Buscar Alerta
+              </button>
+            </div>
+
+            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+              <h2 className="text-xl font-semibold mb-4 text-gray-800">Generar Reportes</h2>
+              <p className="text-gray-600 mb-4">Descarga reportes en PDF de alertas generales o específicas.</p>
+              <button
+                onClick={() => navigate('/reportes')}
+                className="w-full bg-indigo-600 text-white py-2 rounded hover:bg-indigo-700"
+              >
+                Ir a Reportes
               </button>
             </div>
           </div>
