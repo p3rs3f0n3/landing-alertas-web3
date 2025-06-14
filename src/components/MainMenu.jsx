@@ -56,7 +56,7 @@ export default function MainMenu({ account, setLoggedIn, setProvider, setAccount
               </button>
             </div>
 
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+            {/*<div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition-shadow">
               <h2 className="text-xl font-semibold mb-4 text-gray-800">Generar Reportes</h2>
               <p className="text-gray-600 mb-4">Descarga reportes en PDF de alertas generales o específicas.</p>
               <button
@@ -65,7 +65,7 @@ export default function MainMenu({ account, setLoggedIn, setProvider, setAccount
               >
                 Ir a Reportes
               </button>
-            </div>
+            </div>*/}
           </div>
         )}
       </div>

@@ -66,6 +66,11 @@ export default function AlertaDetalle({ provider }) {
   const parsedLat = parseFloat(lat);
   const parsedLon = parseFloat(lon);
 
+  const isValidCoordinates = !isNaN(parsedLat) && !isNaN(parsedLon) && 
+    parsedLat >= -90 && parsedLat <= 90 && 
+    parsedLon >= -180 && parsedLon <= 180;
+
+
   return (
     <div className="bg-white p-6 rounded shadow max-w-3xl mx-auto mt-6">
       <button
@@ -89,7 +94,7 @@ export default function AlertaDetalle({ provider }) {
         <p><strong>Imágenes:</strong> {imgs.length > 0 ? imgs.join(", ") : "No agregadas"}</p>
       </div>
 
-      {parsedLat && parsedLon && (
+     {/* {parsedLat && parsedLon && (
         <MapContainer
           center={[parsedLat, parsedLon]}
           zoom={15}
@@ -101,7 +106,37 @@ export default function AlertaDetalle({ provider }) {
             <Popup>Ubicación de la alerta</Popup>
           </Marker>
         </MapContainer>
-      )}
+     )}*/}
+
+{/*{isValidCoordinates ? (
+  <div className="h-[400px] w-full relative">
+    <MapContainer
+      key={`${parsedLat}-${parsedLon}`}
+      center={[parsedLat, parsedLon]}
+      zoom={15}
+      scrollWheelZoom={false}
+      style={{ height: "100%", width: "100%" }}
+      whenCreated={(map) => {
+        setTimeout(() => {
+          map.invalidateSize();
+        }, 200);
+      }}
+    >
+      <TileLayer
+        attribution='&copy; OpenStreetMap'
+        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+      />
+      <Marker position={[parsedLat, parsedLon]}>
+        <Popup>Ubicación de la alerta</Popup>
+      </Marker>
+    </MapContainer>
+  </div>
+) : (
+  <div className="bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded">
+    No se puede mostrar el mapa: Coordenadas inválidas
+  </div>
+)}*/}
+     
     </div>
   );
 }
