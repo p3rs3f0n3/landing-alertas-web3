@@ -1,17 +1,24 @@
-// Reportes.jsx
 import React, { useState } from "react";
-import jsPDF from "jspdf";
-import autoTable from "jspdf-autotable";
 import { getContract } from "../contract/contract";
+import { useNavigate } from "react-router-dom";
 
 export default function Reportes({ provider }) {
   const [loading, setLoading] = useState(false);
   const [alertId, setAlertId] = useState("");
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const generarPDFGeneral = async () => {
     if (!provider) return alert("Wallet no conectada");
+
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      alert("⚠️ jsPDF no está disponible. Verifica que el CDN esté cargado.");
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
     setLoading(true);
+
     try {
       const signer = await provider.getSigner();
       const contract = getContract(signer);
@@ -26,10 +33,10 @@ export default function Reportes({ provider }) {
         rows.push([i, a.userName, new Date(Number(a.timestamp) * 1000).toLocaleString()]);
       }
 
-      autoTable(doc, {
+      doc.autoTable({
         head: [["ID", "Nombre", "Fecha"]],
         body: rows,
-        startY: 20,
+        startY: 20
       });
 
       doc.save("reporte_alertas_general.pdf");
@@ -44,7 +51,15 @@ export default function Reportes({ provider }) {
   const generarPDFDetalle = async () => {
     if (!alertId) return setError("Ingrese un ID válido");
     if (!provider) return alert("Wallet no conectada");
+
+    if (!window.jspdf || !window.jspdf.jsPDF) {
+      alert("⚠️ jsPDF no está disponible. Verifica que el CDN esté cargado.");
+      return;
+    }
+
+    const { jsPDF } = window.jspdf;
     setLoading(true);
+
     try {
       const signer = await provider.getSigner();
       const contract = getContract(signer);
@@ -53,7 +68,7 @@ export default function Reportes({ provider }) {
       const doc = new jsPDF();
       doc.text("Reporte Detallado de Alerta", 14, 15);
 
-      autoTable(doc, {
+      doc.autoTable({
         startY: 25,
         body: [
           ["ID", alertId],
@@ -78,8 +93,18 @@ export default function Reportes({ provider }) {
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-4 text-center">📄 Generador de Reportes</h2>
+    <div className="bg-white p-6 rounded shadow max-w-3xl mx-auto mt-6">
+<div className="flex justify-between items-center mb-6">
+<h2 className="text-2xl font-bold mb-4 text-center">📄 Generador de Reportes</h2>
+          <button
+            onClick={() => navigate("/")}
+            className="text-blue-600 hover:text-blue-800"
+          >
+            ← Volver al menú
+          </button>
+        </div>
+
+      
 
       <div className="bg-white shadow p-4 rounded mb-6">
         <h3 className="text-lg font-semibold mb-2">🔹 Reporte General</h3>

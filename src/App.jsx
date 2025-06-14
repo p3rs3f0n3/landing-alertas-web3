@@ -6,6 +6,7 @@ import Landing from "./components/Landing";
 import AlertaDetalle from "./components/AlertaDetalle";
 import ConsultarCaso from "./components/ConsultarCaso";
 import { ethers } from "ethers";
+import Reportes from "./components/Reportes"; // Asegúrate de importar el componente
 
 function App() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -70,6 +71,16 @@ function App() {
             />
           }
         />
+        <Route
+  path="/reportes"
+  element={
+    loggedIn ? (
+      <Reportes provider={provider} />
+    ) : (
+      <Navigate to="/login" />
+    )
+  }
+/>
       </Routes>
     </Router>
   );

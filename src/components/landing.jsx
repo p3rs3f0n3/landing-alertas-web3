@@ -85,9 +85,7 @@ export default function Landing({ provider }) {
                   📂 Evidencia: {data[7] ? "Presente" : "No agregada"}
                 </p>
 
-                <div className="mt-4">
-                  <AgregarEvidencia index={index} provider={provider} />
-                </div>
+
                 <div className="mt-2 text-right">
                   <button
                     onClick={() => navigate(`/alerta/${index}`)}
