@@ -88,7 +88,7 @@ export default function Landing({ provider }) {
 
                 <div className="mt-2 text-right">
                   <button
-                    onClick={() => navigate(`/alerta/${index}`)}
+                    onClick={() => navigate(`/alerta/${data[1]}`)}
                     className="text-sm text-blue-600 underline"
                   >
                     Ver detalle

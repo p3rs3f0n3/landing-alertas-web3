@@ -31,15 +31,33 @@ export default function ConsultarCaso({ provider }) {
     try {
       const signer = await provider.getSigner();
       const contract = getContract(signer);
-      const caso = await contract.getAlert(caseId);
+      
+      // Get total number of alerts
+      const totalAlerts = await contract.getTotalAlerts();
+      
+      // Search through all alerts to find the one with matching idEvent
+      let foundCase = null;
+      for (let i = 0; i < totalAlerts; i++) {
+        const caso = await contract.getAlert(i);
+        if (caso[1] === caseId) { // caso[1] is the idEvent
+          foundCase = caso;
+          break;
+        }
+      }
+
+      if (!foundCase) {
+        setError("No se encontró ningún caso con ese ID");
+        return;
+      }
 
       setCaseData({
-        id: caso[1],
-        titulo: caso[2],
-        descripcion: caso[7],
-        fecha: new Date(Number(caso[5]) * 1000).toLocaleString(),
-        estado: caso[6].length > 0 ? "Con contactos" : "Sin contactos",
-        index: caseId
+        id: caseId,
+        titulo: foundCase[2],
+        descripcion: foundCase[7],
+        fecha: new Date(Number(foundCase[5]) * 1000).toLocaleString(),
+        estado: foundCase[6].length > 0 ? "Con contactos" : "Sin contactos",
+        index: caseId,
+        idEvent: foundCase[1]
       });
     } catch (error) {
       console.error("Error al consultar el caso:", error);
@@ -98,7 +116,7 @@ export default function ConsultarCaso({ provider }) {
 
             <div className="mt-4 flex gap-2">
               <button
-                onClick={() => navigate(`/alerta/${caseData.index}`)}
+                onClick={() => navigate(`/alerta/${caseData.idEvent}`)}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
               >
                 Ver detalle

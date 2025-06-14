@@ -20,8 +20,26 @@ export default function AlertaDetalle({ provider }) {
       try {
         const signer = await provider.getSigner();
         const contract = getContract(signer);
-        const data = await contract.getAlert(index);
-        setAlerta(data);
+        
+        // Get total number of alerts
+        const totalAlerts = await contract.getTotalAlerts();
+        
+        // Search through all alerts to find the one with matching idEvent
+        let foundAlert = null;
+        for (let i = 0; i < totalAlerts; i++) {
+          const alert = await contract.getAlert(i);
+          if (alert[1] === index) { // alert[1] is the idEvent
+            foundAlert = alert;
+            break;
+          }
+        }
+
+        if (!foundAlert) {
+          setError("No se encontró la alerta con ese ID");
+          return;
+        }
+
+        setAlerta(foundAlert);
       } catch (error) {
         console.error("Error al cargar alerta:", error);
         setError("No se pudo cargar la alerta. Verifique el ID.");
